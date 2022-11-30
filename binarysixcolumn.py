@@ -8,6 +8,8 @@ import sys
 
 
 hat = SenseHat()
+
+#function for ending the program when it it being interrupted
 def signal_term_handler(signal, frame):
     hat.show_message('Program Slutter')
     sys.exit(0)
@@ -16,13 +18,14 @@ signal.signal(signal.SIGTERM, signal_term_handler)
 signal.signal(signal.SIGINT,signal_term_handler)
  
 
-
+#Colors for hour, minutes, seconds, am and pm
 hour_greencolor = (0, 255, 0)
 minute_bluecolor = (0, 0, 255)
 second_redcolor = (255, 0, 0)
 am_color=(0,255,255)
 pm_color=(255,255,0)
 
+#color for setting off
 off = (0, 0, 0)
 
 hat.clear()
@@ -47,9 +50,6 @@ sec2=0
 hat.show_message("Programmet starter")   # Message when program starts
 
 
-
-
-#hat.stick.direction_down = time_in_24format
 #function to set the binary clock on Sense Hat in columns
 def display_binary_column(value, row, color):
     binary_str = "{0:8b}".format(value)
@@ -68,7 +68,7 @@ def display_binary_row(value, row, color):
 		else:
 			hat.set_pixel(x, row, off)
        
-
+#function to set the clock on Sense Hat in row and 12 hours format
 def binaryclock_12format_row(event):
     global flag,hat,showtime
     showtime= 12 
@@ -77,6 +77,7 @@ def binaryclock_12format_row(event):
     hat.clear()
     hat.set_pixel(0,0,am_color)
     print(flag)
+#function to set the clock on Sense Hat in row and 24hours format
 def binaryclock_24format_row(event):
     global flag,hat,showtime
     showtime= 0
@@ -85,7 +86,7 @@ def binaryclock_24format_row(event):
     hat.clear()
     hat.set_pixel(0,0,pm_color)
     print(flag)
-#function to change clock 24 hrs format to 12 hors format
+#function to change clock 24 hrs format to 12 hours format ans show in column
 def time_in_12format_column(event):  
     global showtime,hat, flag
     showtime= 12 
@@ -93,7 +94,8 @@ def time_in_12format_column(event):
     hat.clear()
     hat.set_pixel(0,0,am_color)
     print(showtime)
-    print(flag)    
+    print(flag)  
+#function to change clock 12 hrs format to 24 hours format ans show in column  
 def time_in_24format_column(event):
     global showtime,hat,flag
     showtime= 0
@@ -110,7 +112,7 @@ hat.stick.direction_down =time_in_24format_column
 hat.stick.direction_left= binaryclock_24format_row
 hat.stick.direction_right= binaryclock_12format_row
 
-#hat.stick.direction_right = 
+#Running until it is being interrupted
 while True:
     t = datetime.datetime.now()
     if (t.hour > 12 & showtime == 12):
@@ -119,7 +121,7 @@ while True:
         hour = t.hour
 
     if(flag== True):
-         #display_binary
+         #display_binary to three rows
         
         display_binary_row(hour, 2, hour_greencolor)   
         display_binary_row(t.minute, 3, minute_bluecolor)
@@ -145,7 +147,7 @@ while True:
                     sec1=int(t.second/10)
                           
                     sec2=(t.second%10)
-#display_binary til 6 coloner
+#display_binary to six columns
         display_binary_column(hour1, 1, hour_greencolor)   
         display_binary_column(hour2, 2, hour_greencolor) 
         display_binary_column(min1, 3, minute_bluecolor)
