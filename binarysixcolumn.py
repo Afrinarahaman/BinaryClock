@@ -3,12 +3,25 @@
 from sense_hat import SenseHat
 import time, datetime
 
+import signal
+import sys
+
+
 hat = SenseHat()
+def signal_term_handler(signal, frame):
+    hat.show_message('Program Slutter')
+    sys.exit(0)
+ 
+signal.signal(signal.SIGTERM, signal_term_handler)
+signal.signal(signal.SIGINT,signal_term_handler)
+ 
 
 
 hour_greencolor = (0, 255, 0)
 minute_bluecolor = (0, 0, 255)
 second_redcolor = (255, 0, 0)
+am_color=(0,255,255)
+pm_color=(255,255,0)
 
 off = (0, 0, 0)
 
@@ -30,14 +43,15 @@ sec1=0
 global sec2
 sec2=0
 
-#hat.show_message("Programmet starter")   # Message when program starts
+
+hat.show_message("Programmet starter")   # Message when program starts
 
 
 
 
 #hat.stick.direction_down = time_in_24format
-#function to set the binary clock on Sense Hat
-def display_binary1(value, row, color):
+#function to set the binary clock on Sense Hat in columns
+def display_binary_column(value, row, color):
     binary_str = "{0:8b}".format(value)
     for x in range(0, 8):
         if binary_str[x] == '1':
@@ -45,8 +59,8 @@ def display_binary1(value, row, color):
             
         else:
             hat.set_pixel( row, x, off)
-
-def display_binary(value, row, color):
+#function to set the binary clock on sense hat in rows
+def display_binary_row(value, row, color):
 	binary_str = "{0:8b}".format(value)
 	for x in range(0, 8):
 		if binary_str[x] == '1':
@@ -55,42 +69,71 @@ def display_binary(value, row, color):
 			hat.set_pixel(x, row, off)
        
 
-def binaryclock_sixcolumn(event):
-    global flag
-    flag=False 
+def binaryclock_12format_row(event):
+    global flag,hat,showtime
+    showtime= 12 
+    flag=True
+    
+    hat.clear()
+    hat.set_pixel(0,0,am_color)
     print(flag)
-
-def time_in_12format():  
+def binaryclock_24format_row(event):
+    global flag,hat,showtime
+    showtime= 0
+    flag=True
+    
+    hat.clear()
+    hat.set_pixel(0,0,pm_color)
+    print(flag)
+#function to change clock 24 hrs format to 12 hors format
+def time_in_12format_column(event):  
     global showtime,hat, flag
     showtime= 12 
     flag=False
     hat.clear()
+    hat.set_pixel(0,0,am_color)
     print(showtime)
     print(flag)    
-
+def time_in_24format_column(event):
+    global showtime,hat,flag
+    showtime= 0
+    
+    flag=False
+    
+    hat.clear()
+    hat.set_pixel(0,0,pm_color)
+    print(showtime)
 
 #For JoyStick direction
-hat.stick.direction_up = time_in_12format
+hat.stick.direction_up = time_in_12format_column
+hat.stick.direction_down =time_in_24format_column
+hat.stick.direction_left= binaryclock_24format_row
+hat.stick.direction_right= binaryclock_12format_row
 
+#hat.stick.direction_right = 
 while True:
     t = datetime.datetime.now()
-   
+    if (t.hour > 12 & showtime == 12):
+        hour= t.hour-12  
+    else:
+        hour = t.hour
+
     if(flag== True):
          #display_binary
         
-        display_binary(t.hour, 2, hour_greencolor)   
-        display_binary(t.minute, 3, minute_bluecolor)
-        display_binary(t.second, 4, second_redcolor)
+        display_binary_row(hour, 2, hour_greencolor)   
+        display_binary_row(t.minute, 3, minute_bluecolor)
+        display_binary_row(t.second, 4, second_redcolor)
         time.sleep(0.0001)
 
     if(flag==False):
         t = datetime.datetime.now()
         for index in range(0, 5):
                                   
-                    hour1=int(t.hour/10)
+                    hour1=int(hour/10)
                     print(hour1)                
                                               
-                    hour2=(t.hour%10)
+                    hour2=(hour%10)
                     print(hour2)
                                  
                     min1=int(t.minute/10)
@@ -103,11 +146,11 @@ while True:
                           
                     sec2=(t.second%10)
 #display_binary til 6 coloner
-        display_binary1(hour1, 1, hour_greencolor)   
-        display_binary1(hour2, 2, hour_greencolor) 
-        display_binary1(min1, 3, minute_bluecolor)
-        display_binary1(min2, 4, minute_bluecolor)
-        display_binary1(sec1, 5, second_redcolor)
-        display_binary1(sec2, 6, second_redcolor)
+        display_binary_column(hour1, 1, hour_greencolor)   
+        display_binary_column(hour2, 2, hour_greencolor) 
+        display_binary_column(min1, 3, minute_bluecolor)
+        display_binary_column(min2, 4, minute_bluecolor)
+        display_binary_column(sec1, 5, second_redcolor)
+        display_binary_column(sec2, 6, second_redcolor)
         time.sleep(0.0001)  
 
