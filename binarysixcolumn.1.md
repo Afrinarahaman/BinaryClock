@@ -6,11 +6,11 @@ footer: binary clock 1.1.0
 date: December 02,2022
 ---
 
-#NAME
+##NAME
 
-Binary clock--> Det er et binært ur, som viser tid  med to forskellige tidsformater (12 eller 24).
+Binary clock--> Det er et Binære Ur, som viser tid  med to forskellige tidsformater (12 eller 24). Her LED'erne har blevet brugt til at vise uret, som timer, minutter og sekunder.
 
-#SYNOPSIS
+##SYNOPSIS
 
 Programmet kan køre med service. Kommandoer til at starte og stoppe service.
 
@@ -21,8 +21,14 @@ Programmet kan køre med service. Kommandoer til at starte og stoppe service.
 Hvis der er nogle fejl, så kan du tjekke status for at kigge hvor er der fejl. Kommando til at tjekke service
 **Check status** ->  sudo systemctl status binaryclock.service
 
+##CONFIGURATION
+For at ændre rettigheder  af service 
+sudo chmod 644 /lib/systemd/system/hello.service
+chmod +x /home/pi/hello_world.py
+sudo systemctl daemon-reload
+sudo systemctl enable hello.service
 
-#DESCRIPTION
+##DESCRIPTION
 
 **BinaryClock** --> Programmet viser aktuelt tid som binært ur. Det viser forskellige LED farver for timer, minutter og sekumder.
                     fx Grøn farve for Timer, Blå farve til Minutter og Rød farve til Sekunder.
