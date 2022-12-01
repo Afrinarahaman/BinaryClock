@@ -13,12 +13,15 @@ Format:  Name, Synopsis, Description
 
  commands ---> pandoc binarysixcolumn.1.md -s -t man -o binarysixcolumn.1
 
+For opening man page:
+man -l binarysixcolumn.1
+
 **Service for the Script**
 
 Now we're going to define the service to run this script:
 
 cd /lib/systemd/system/
-sudo nano hello.service
+sudo nano binaryclock.service
 
 The service definition must be on the /lib/systemd/system folder. Our service is going to be called "binar.service":
 

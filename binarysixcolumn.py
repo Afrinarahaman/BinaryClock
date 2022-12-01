@@ -119,14 +119,24 @@ hat.stick.direction_right= binaryclock_12format_row
 
 
 def Main():
+    global flag, showtime
+    flag=True
+    showtime=12
     ## Passing arguments to program from the commandsprompt
     if len(sys.argv[1::])>0:
-        cmd, val =sys.argv[1].split('=')
-        if cmd =='color':
-            if val == 'hotpink':
-                hat.set_pixel(0,0,command_color)
-                time_in_24format_column
 
+        cmd, val =sys.argv[1].split('=')
+        if cmd =='dir':
+            if val == 'h':
+                #hat.set_pixel(0,0,command_color)
+                flag=True
+            if val =='v':
+                flag=False
+        elif cmd=='clock-time':
+            if val=='24h':
+                showtime=0
+            if val=='12h':
+                showtime=12
     #Running until it is being interrupted
     while True:
         t = datetime.datetime.now()
@@ -135,13 +145,14 @@ def Main():
         else:
             hour = t.hour
 
-        if(flag== True):
+        if(flag == True):
             #display_binary to three rows
             
             display_binary_row(hour, 2, hour_greencolor)   
             display_binary_row(t.minute, 3, minute_bluecolor)
             display_binary_row(t.second, 4, second_redcolor)
             time.sleep(0.0001)
+
 
         if(flag==False):
             t = datetime.datetime.now()
