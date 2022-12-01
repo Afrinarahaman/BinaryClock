@@ -1,0 +1,47 @@
+**Install Pandoc i Remote local for man page**
+
+command: sudo apt install pandoc
+
+**Create a man page**
+create a new file in the folder , where python file is. name should be always python filesname.1.md fx binarysixcolumn.1.md
+
+
+**Adding the NAME, SYNOPSIS and DESCRIPTION sections**
+
+Format:  Name, Synopsis, Description
+ Then save it. You have to run the following command for execution:
+
+ commands ---> pandoc binarysixcolumn.1.md -s -t man -o binarysixcolumn.1
+
+**Service for the Script**
+
+Now we're going to define the service to run this script:
+
+cd /lib/systemd/system/
+sudo nano hello.service
+
+The service definition must be on the /lib/systemd/system folder. Our service is going to be called "binar.service":
+
+[Unit]
+Description=Binary Clock
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python /home/pi/BinaryClock/binarysixcolumn.py
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+
+Here we are creating a very simple service that runs our hello_world script and if by any means is aborted is going to be restarted automatically. You can check more on service's options in the next wiki: https://wiki.archlinux.org/index.php/systemd.
+
+Now that we have our service we need to activate it:
+
+**give right to service**
+sudo chmod 644 /lib/systemd/system/binaryclock.service
+chmod +x /home/pi/binarysixcolumn.py
+sudo systemctl daemon-reload
+sudo systemctl enable binaryclock.service
+sudo systemctl start binaryclock.service
+

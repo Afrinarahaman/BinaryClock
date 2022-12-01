@@ -24,7 +24,7 @@ minute_bluecolor = (0, 0, 255)
 second_redcolor = (255, 0, 0)
 am_color=(0,255,255)
 pm_color=(255,255,0)
-
+command_color=(255,105,180)
 #color for setting off
 off = (0, 0, 0)
 
@@ -76,7 +76,9 @@ def binaryclock_12format_row(event):
     
     hat.clear()
     hat.set_pixel(0,0,am_color)
-    print(flag)
+    print(showtime)
+    #print(flag)
+
 #function to set the clock on Sense Hat in row and 24hours format
 def binaryclock_24format_row(event):
     global flag,hat,showtime
@@ -85,7 +87,9 @@ def binaryclock_24format_row(event):
     
     hat.clear()
     hat.set_pixel(0,0,pm_color)
-    print(flag)
+    print(showtime)
+    #print(flag)
+
 #function to change clock 24 hrs format to 12 hours format ans show in column
 def time_in_12format_column(event):  
     global showtime,hat, flag
@@ -94,9 +98,10 @@ def time_in_12format_column(event):
     hat.clear()
     hat.set_pixel(0,0,am_color)
     print(showtime)
-    print(flag)  
+    #print(flag)  
+
 #function to change clock 12 hrs format to 24 hours format ans show in column  
-def time_in_24format_column(event):
+def time_in_24format_column():
     global showtime,hat,flag
     showtime= 0
     
@@ -112,47 +117,59 @@ hat.stick.direction_down =time_in_24format_column
 hat.stick.direction_left= binaryclock_24format_row
 hat.stick.direction_right= binaryclock_12format_row
 
-#Running until it is being interrupted
-while True:
-    t = datetime.datetime.now()
-    if (t.hour > 12 & showtime == 12):
-        hour= t.hour-12  
-    else:
-        hour = t.hour
 
-    if(flag== True):
-         #display_binary to three rows
-        
-        display_binary_row(hour, 2, hour_greencolor)   
-        display_binary_row(t.minute, 3, minute_bluecolor)
-        display_binary_row(t.second, 4, second_redcolor)
-        time.sleep(0.0001)
+def Main():
+    ## Passing arguments to program from the commandsprompt
+    if len(sys.argv[1::])>0:
+        cmd, val =sys.argv[1].split('=')
+        if cmd =='color':
+            if val == 'hotpink':
+                hat.set_pixel(0,0,command_color)
+                time_in_24format_column
 
-    if(flag==False):
+    #Running until it is being interrupted
+    while True:
         t = datetime.datetime.now()
-        for index in range(0, 5):
-                                  
-                    hour1=int(hour/10)
-                    print(hour1)                
-                                              
-                    hour2=(hour%10)
-                    print(hour2)
-                                 
-                    min1=int(t.minute/10)
-                    print(min1)
-                        
-                    min2=(t.minute%10)
-                    print(min2)
-                                
-                    sec1=int(t.second/10)
-                          
-                    sec2=(t.second%10)
-#display_binary to six columns
-        display_binary_column(hour1, 1, hour_greencolor)   
-        display_binary_column(hour2, 2, hour_greencolor) 
-        display_binary_column(min1, 3, minute_bluecolor)
-        display_binary_column(min2, 4, minute_bluecolor)
-        display_binary_column(sec1, 5, second_redcolor)
-        display_binary_column(sec2, 6, second_redcolor)
-        time.sleep(0.0001)  
+        if (t.hour > 12 & showtime == 12):
+            hour= t.hour-12  
+        else:
+            hour = t.hour
 
+        if(flag== True):
+            #display_binary to three rows
+            
+            display_binary_row(hour, 2, hour_greencolor)   
+            display_binary_row(t.minute, 3, minute_bluecolor)
+            display_binary_row(t.second, 4, second_redcolor)
+            time.sleep(0.0001)
+
+        if(flag==False):
+            t = datetime.datetime.now()
+            for index in range(0, 5):
+                                    
+                        hour1=int(hour/10)
+                        print(hour1)                
+                                                
+                        hour2=(hour%10)
+                        print(hour2)
+                                    
+                        min1=int(t.minute/10)
+                        print(min1)
+                            
+                        min2=(t.minute%10)
+                        print(min2)
+                                    
+                        sec1=int(t.second/10)
+                            
+                        sec2=(t.second%10)
+    #display_binary to six columns
+            display_binary_column(hour1, 1, hour_greencolor)   
+            display_binary_column(hour2, 2, hour_greencolor) 
+            display_binary_column(min1, 3, minute_bluecolor)
+            display_binary_column(min2, 4, minute_bluecolor)
+            display_binary_column(sec1, 5, second_redcolor)
+            display_binary_column(sec2, 6, second_redcolor)
+            time.sleep(0.0001)  
+
+if __name__ == "__main__":
+    Main()
