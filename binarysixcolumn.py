@@ -147,7 +147,8 @@ def Main():
 
         if(flag == True):
             #display_binary to three rows
-            
+          
+
             display_binary_row(hour, 2, hour_greencolor)   
             display_binary_row(t.minute, 3, minute_bluecolor)
             display_binary_row(t.second, 4, second_redcolor)

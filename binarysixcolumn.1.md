@@ -23,7 +23,8 @@ Programmet kan køre med service. Kommandoer til at starte og stoppe service.
 Hvis der er nogle fejl, så kan du tjekke status for at kigge hvor er der fejl. Kommando til at tjekke service
 **Check status** ->  sudo systemctl status binaryclock.service
 
-# CONFIGURATION
+# ENVIRONMENT
+
 For at ændre rettigheder  af service 
 sudo chmod 644 /lib/systemd/system/binaryclock.service
 
@@ -54,7 +55,7 @@ sudo systemctl enable binaryclock.service
 **clock-time**
 : 12h eller 24h 
 **dir**
-:h eller v
+: h eller v
 
 # EXAMPLES
 
