@@ -59,3 +59,4 @@ sudo systemctl enable binaryclock.service
 # EXAMPLES
 
 **binaryclock dir=h**
+**binaryclock clock-time=12h**
