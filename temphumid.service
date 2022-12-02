@@ -1,0 +1,12 @@
+[Unit]
+Description=Binary Clock
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/bin/python /home/pi/BinaryClock/temphumid.py
+
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

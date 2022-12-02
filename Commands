@@ -43,7 +43,7 @@ Now that we have our service we need to activate it:
 
 **give right to service**
 sudo chmod 644 /lib/systemd/system/binaryclock.service
-chmod +x /home/pi/binarysixcolumn.py
+chmod +x /home/pi/BinaryClock/binarysixcolumn.py
 sudo systemctl daemon-reload
 sudo systemctl enable binaryclock.service
 sudo systemctl start binaryclock.service

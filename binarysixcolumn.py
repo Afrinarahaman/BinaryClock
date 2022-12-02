@@ -79,8 +79,9 @@ def binaryclock_12format_row(event):
     print(showtime)
     #print(flag)
 
-#function to set the clock on Sense Hat in row and 24hours format
+
 def binaryclock_24format_row(event):
+    """function to set the clock on Sense Hat in row and 24hours format"""
     global flag,hat,showtime
     showtime= 0
     flag=True
