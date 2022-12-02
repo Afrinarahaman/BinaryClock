@@ -16,6 +16,22 @@ Format:  Name, Synopsis, Description
 For opening man page:
 man -l binarysixcolumn.1
 
+**How to make Gzip file**
+gzip ~/BinaryClock/binarysixcolumn.1
+
+Now we can copy the MAN page for our script to the directory where all MAN pages for programs and scripts reside:
+
+sudo cp ~/BinaryClock/binarysixcolumn.1.gz /usr/share/man/man1/
+
+As a final step we update MAN’s internal database:
+
+sudo mandb
+
+# To run manpage without extension
+
+man binarysixcolumn
+
+
 **Service for the Script**
 
 Now we're going to define the service to run this script:
@@ -47,4 +63,5 @@ chmod +x /home/pi/BinaryClock/binarysixcolumn.py
 sudo systemctl daemon-reload
 sudo systemctl enable binaryclock.service
 sudo systemctl start binaryclock.service
+
 
